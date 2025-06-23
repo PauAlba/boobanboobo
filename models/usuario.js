@@ -36,7 +36,34 @@ const Usuario = {
         callback(null, results[0]); // Retorna el usuario encontrado o null
       }
     );
+  },
+
+  getClientes: (callback) => {
+    db.query(
+      'SELECT Id, Nombre, Usuario, Telefono, Email FROM Usuario WHERE Tipo = ?', 
+      ['cliente'], 
+      callback
+    );
+  },
+  
+  getByCliente: (clienteId, callback) => {
+    db.query(`
+      SELECT 
+        p.Id,
+        p.Fecha,
+        p.Completado,
+        m.Platillo,
+        m.Precio
+      FROM Pedido p
+      JOIN Menu m ON p.PlatilloId = m.Id
+      WHERE p.UsuarioId = ?
+      ORDER BY p.Fecha DESC
+    `, [clienteId], callback);
   }
+
 };
+
+
+  
 
 module.exports = Usuario;
