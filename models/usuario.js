@@ -51,17 +51,15 @@ const Usuario = {
   // }
 
   getClientes: (callback) => {
-    console.log('🟡 Ejecutando getClientes...');
+    console.log('Ejecutando getClientes...');
     db.query(
       'SELECT Id, Nombre, Usuario, Telefono, Email FROM Usuario WHERE Tipo = ?',
       ['cliente'],
       (err, results) => {
         if (err) {
-          console.error('❌ Error en consulta:', err);
+          console.error('Error en consulta:', err);
           return callback(err);
         }
-
-        console.log('✅ Resultados:', results);
         callback(null, results || []);
       }
     );

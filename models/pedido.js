@@ -33,11 +33,9 @@ const Pedido = {
 
     db.query(sql, [clienteId], (err, results) => {
       if (err) {
-        console.error('❌ Error en consulta:', err);
+        console.error('Error en consulta:', err);
         return callback(err);
       }
-
-      console.log('✅ Resultados:', results);
       callback(null, results || []);
     });
   }
