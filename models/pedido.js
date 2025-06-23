@@ -19,7 +19,29 @@ const Pedido = {
 
   delete: (id, callback) => {
     db.query('DELETE FROM Pedido WHERE Id = ?', [id], callback);
+  },
+
+  getHistorialPorCliente: (clienteId, callback) => {
+    console.log(`🟡 Ejecutando getHistorialPorCliente para clienteId=${clienteId}...`);
+
+    const sql = `
+      SELECT p.Id, p.Fecha, p.Completado, p.PlatilloId
+      FROM Pedido p
+      WHERE p.UsuarioId = ?
+      ORDER BY p.Fecha DESC
+    `;
+
+    db.query(sql, [clienteId], (err, results) => {
+      if (err) {
+        console.error('❌ Error en consulta:', err);
+        return callback(err);
+      }
+
+      console.log('✅ Resultados:', results);
+      callback(null, results || []);
+    });
   }
+
 };
 
 module.exports = Pedido;

@@ -3,6 +3,7 @@ const db = require('../config/database');
 const Usuario = {
   // Obtener todos los usuarios (sin contraseñas)
   getAll: (callback) => {
+    console.log('hola')
     db.query('SELECT Id, Nombre, Usuario, Tipo, Email FROM Usuario', callback);
   },
 
@@ -38,28 +39,34 @@ const Usuario = {
     );
   },
 
+  // getClientes: (callback) => {
+  //   db.query(
+  //     'SELECT Id, Nombre, Usuario, Telefono, Email FROM Usuario WHERE Tipo LIKE ?', 
+  //     ['cliente'],
+  //     (err, results) => {
+  //       if (err) return callback(err);
+  //       callback(null, results || []);
+  //     }
+  //   );
+  // }
+
   getClientes: (callback) => {
+    console.log('🟡 Ejecutando getClientes...');
     db.query(
-      'SELECT Id, Nombre, Usuario, Telefono, Email FROM Usuario WHERE Tipo = ?', 
-      ['cliente'], 
-      callback
+      'SELECT Id, Nombre, Usuario, Telefono, Email FROM Usuario WHERE Tipo = ?',
+      ['cliente'],
+      (err, results) => {
+        if (err) {
+          console.error('❌ Error en consulta:', err);
+          return callback(err);
+        }
+
+        console.log('✅ Resultados:', results);
+        callback(null, results || []);
+      }
     );
-  },
-  
-  getByCliente: (clienteId, callback) => {
-    db.query(`
-      SELECT 
-        p.Id,
-        p.Fecha,
-        p.Completado,
-        m.Platillo,
-        m.Precio
-      FROM Pedido p
-      JOIN Menu m ON p.PlatilloId = m.Id
-      WHERE p.UsuarioId = ?
-      ORDER BY p.Fecha DESC
-    `, [clienteId], callback);
   }
+  
 
 };
 

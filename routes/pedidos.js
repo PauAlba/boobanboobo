@@ -37,4 +37,15 @@ router.delete('/:id', (req, res) => {
   });
 });
 
+router.get('/cliente/:clienteId', (req, res) => {
+  const clienteId = req.params.clienteId;
+
+  Pedido.getHistorialPorCliente(clienteId, (err, pedidos) => {
+    if (err) {
+      return res.status(500).json({ error: 'Error al obtener historial de pedidos' });
+    }
+    res.json(pedidos);
+  });
+});
+
 module.exports = router;

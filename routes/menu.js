@@ -16,6 +16,7 @@ router.get('/:id', (req, res) => {
   });
 });
 
+
 router.post('/', (req, res) => {
   Menu.create(req.body, (err, result) => {
     if (err) return res.status(500).json({ error: err });

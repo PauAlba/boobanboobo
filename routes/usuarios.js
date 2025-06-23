@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/usuario');
+const Pedido = require('../models/pedido');
 
 // Login - Reemplaza a auth.js
 router.post('/login', (req, res) => {
@@ -22,6 +23,23 @@ router.post('/login', (req, res) => {
     });
   });
 });
+
+// router.get('/clientes', (req, res) => {
+//     Usuario.getClientes((err, results) => {
+//         if (err) return res.status(500).json({ error: 'Error al obtener clientes' });
+//         res.json(results);
+//     });
+// });
+
+router.get('/clientes', (req, res) => {
+  Usuario.getClientes((err, clientes) => {
+    if (err) {
+      return res.status(500).json({ error: 'Error al obtener clientes' });
+    }
+    res.json(clientes);
+  });
+});
+
 
 // Otras rutas CRUD
 router.get('/', (req, res) => {
@@ -59,26 +77,5 @@ router.delete('/:id', (req, res) => {
   });
 });
 
-// Añade esto junto a tus otras rutas
-router.get('/clientes', (req, res) => {
-    Usuario.getClientes((err, results) => {
-        if (err) return res.status(500).json({ error: 'Error al obtener clientes' });
-        res.json(results);
-    });
-});
-
-
-router.get('/cliente/:id', (req, res) => {
-  const clienteId = req.params.id;
-  
-  if (!clienteId || isNaN(clienteId)) {
-    return res.status(400).json({ error: 'ID de cliente inválido' });
-  }
-
-  Pedido.getByCliente(clienteId, (err, results) => {
-    if (err) return res.status(500).json({ error: 'Error al obtener pedidos' });
-    res.json(results);
-  });
-});
 
 module.exports = router;
