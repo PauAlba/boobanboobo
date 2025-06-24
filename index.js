@@ -18,6 +18,8 @@ app.use('/api/menu', require('./routes/menu'));
 app.use('/api/pedidos', require('./routes/pedidos'));
 app.use('/api/inventario', require('./routes/inventario'));
 app.use('/api/proveedores', require('./routes/proveedores'));
+app.use('/api/reportes', require('./routes/reportes'));
+app.use('/api/signup', require('./routes/signup'));
 
 // my sql conneccion base de datos
 db.connect(err => {

@@ -29,6 +29,7 @@ const Usuario = {
 
   // Login (único método necesario para auth)
   login: (usuario, contrasena, callback) => {
+    console.log('AYUda')
     db.query(
       'SELECT Id, Nombre, Usuario, Tipo FROM Usuario WHERE Usuario = ? AND Contrasena = ?',
       [usuario, contrasena],
